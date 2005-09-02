@@ -1,0 +1,137 @@
+######################
+### PLANNED / TODO ###
+######################
+
+  RPP - Red(Nova) Patch Pack v0.3 for BNT v0.41
+-================================================-
+ADD : Lottery 
+ADD : Anti Bot Checks
+ADD : History in shoutbox?
+ADD : Black List for emails/accounts
+FIXED : Traderoute credit and turns: http://forums.blacknova.net/viewtopic.php?p=12607#12607
+FIXED : Planet and Traderout: http://sourceforge.net/tracker/index.php?func=detail&aid=661556&group_id=14248&atid=114248
+FIXED : Colonist cheat: http://sourceforge.net/tracker/index.php?func=detail&aid=674023&group_id=14248&atid=114248
+FIXED : port usage and traderouts .. ???
+
+
+######################
+### ACTUAL RELEASE ###
+######################
+
+  RPP - Red(Nova) Patch Pack v0.1o for BNT v0.41
+-================================================-
+NOTE : pavey and andtag joined the development team.
+FIXED : Merged WC bug fix code.
+FIXED : Server Time in footer.php
+FIXED : Trade Routes
+FIXED : New Registered Players get too much start turns.
+ADD : Block Universe Scanner Accounts
+
+
+###############
+### HISTORY ###
+###############
+
+  RPP - Red(Nova) Patch Pack v0.1n for BNT v0.41
+-================================================-
+ADD : FURANGEE 2 PATCH v0.2 © Jeffrey Vella (Thx2 Pavey)
+ADD : Pay-System + Ad-Banner
+ADD : admin.php - Delete a Player (with: Ship, Planets, ...)
+
+
+  RPP - Red(Nova) Patch Pack v0.1m for BNT v0.41
+-================================================-
+ADD : Better Multi-Account Protection
+ADD : extend admin.php
+ADD : Planet-Report: Checkbox to select all planets
+
+
+  RPP - Red(Nova) Patch Pack v0.1k for BNT v0.41
+-================================================-
+ADD : Better logging
+ADD : Game Start/Duration/End to settings.php
+ADD : Aliance List in main.php
+
+
+  RPP - Red(Nova) Patch Pack v0.1j for BNT v0.41
+-================================================-
+FIX : Extend Fedback mail with $gamepath
+CHANGED : Moved Admin news to a own line which will only displayed if there are news
+CHANGED : Shoutbox only display the alliance chat if you are in onw
+ADD : Realspace pannel from NGS (Thx2 Nova Gaming System developer)
+ADD : Hall of Fame
+FIXED: Forgot $gamename check in create_universe.php =)
+ADD : Automatic Planet Namer for unowned planet captures
+
+
+  RPP - Red(Nova) Patch Pack v0.1i for BNT v0.41
+-================================================-
+ADD : Link back to rednova.de on index.php
+RE-ADD : Starvation on Planets (production stops while starvation!)
+ADD : create_universe.php $gamename and $gamedomain check for public list
+ADD : Automatic Planet Namer
+
+
+  RPP - Red(Nova) Patch Pack v0.1h for BNT v0.41
+-================================================-
+FIXED : BNT Public List Client
+FIXED : Energy Bug (Thx2 Dave)
+FIXED : Send and Read Mail (Thx2 Moonwolf)
+
+
+  RPP - Red(Nova) Patch Pack v0.1g for BNT v0.41
+-================================================-
+ADD : Direct realspace trafel from main.php
+ADD : JavaScript based CronJob.
+ADD : Big score in ranking.php
+
+
+  RPP - Red(Nova) Patch Pack v0.1f for BNT v0.41
+-================================================-
+FIXED : Vote System - Limit length of line
+ADD : Display Server Time and Time Zone / extend footer layout
+CHANGE : Vote-System - admin.php: Splite ClearVote button to ClearVote and StopVote button
+FIXED : More information on vote result page
+CHANGED : Add max team-member display to teams.php
+
+
+  RPP - Red(Nova) Patch Pack v0.1e for BNT v0.41
+-================================================-
+CHANGED : Counter in footer can't longer get negative... 
+CHANGED : ShoutBox Smily overview.
+
+
+  RPP - Red(Nova) Patch Pack v0.1d for BNT v0.41
+-================================================-
+ADD : Alliance member limit and cancel invitation.
+CHANGED : settings.php extended by value 'max alliance members' and 'public list entry update scheduler'
+
+
+  RPP - Red(Nova) Patch Pack v0.1c for BNT v0.41
+-================================================-
+CHANGED : ShoutBox now display the last 5 public and last 5 alliance msg's
+
+
+  RPP - Red(Nova) Patch Pack v0.1b for BNT v0.41
+-================================================-
+FIX : ShoutBox now ignore empty and double postings
+FIX : Lost passwords will not longer send as MD5-Key. BNT generate a new password because the original will never saved in cleartext and can't be recoverd!
+
+
+  RPP - Red(Nova) Patch Pack v0.1a for BNT v0.41
+-================================================-
+FIX : Option.php - was static password lenght = 16, changed to $max_password_lengt
+
+
+  RPP - Red(Nova) Patch Pack v0.1 for BNT v0.41
+-===============================================-
+
+FIX : Create_universe.php - create exact 3000 (or what you set up), not 3001
+FIX : Furangee_control.php - now works again
+ADD : Vote System
+ADD : Shout Box (Public/Alliance)
+ADD : Public List
+ADD : Admin New's added
+ADD : MD5 Password (Client and Server side)
+CHANGED : Footer layout
+CHANGED : admin.php extended (To Administrate Vote and Adm-News)
