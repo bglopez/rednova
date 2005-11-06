@@ -1,0 +1,73 @@
+  RPP - Red(Nova) Patch Pack v0.1 for BNT v0.41
+-===============================================-
+
+
+If you have comments, problems, bugs or an idea send a mail to: indiana at rednova.de
+Thanks for using my RPP.
+
+
+ INSTALL
+---------
+This is for Admin's who just start a new BNT game.
+
+1) Normaly install BNT v0.41
+
+2) Copy all files from RPP v0.1 to BNT v0.41 (overwrite all files)
+
+3a) Extend config_local.php with:
+$bnt_ls_gameurl = "http://long.rednova.de/"; // Absolut URL to YOUR game !!!
+$bnt_ls = true;                         // true = Add your game to the public list ; false = private game
+$bnt_ls_key = "myKey";                  // enter an authentification key here (always use the same key for the same server/game)
+
+$max_team_members = 6;                  // Max Members per Team (if limit reached, the INVITE Link is disabled.
+$servertimezone = "CET [GMT+1]";        // Your Timezone as a string which will just display in footer
+$GameDuration = 86400 * 90;             // Time(in seconds) until the game should automaticly closed and Hall of Fame generated. -1 means no automation HOF will generated with create_universe.php.
+$Timeout = 3600;                          // Cookie Timeout in seconds
+
+$advlog_cookiecount = 80;								// How often should the security key be set
+$advlog_ban_cookiecount = true;					// Ban if limit above is reached
+$advlog_ban_wrongkey = true;						// Ban if a wrong key got found
+$advlog_ban_wrongip = false;						// Ban if multiple player play's from the same IP
+
+
+3b) Customice your config.php.
+- Change the $gamename! (else all gamename's in the public list are the same. Do not start with Blacknova or Rednova! Do not add your URL! It is the NAME!!!)
+- Set $maxlen_password = 32 (for MD5)
+- Set $sched_type = ... (0 = real cronjob, 1 = player triggerd and JS-Cronjob, 2 = JS-Cronjob only)
+
+4) Run create_universe.php (Is a must for RPP only you already have a previos version of RPP running!)
+
+5) That's it, have fun!
+
+(c) by Indiana
+
+
+ UPGRADE
+---------
+This is for Admin's who already have running BNT v0.41 _with_ a previos RPP patch.
+*** NOT RECOMMENDED *** Use RPP with new games!
+
+1) just replace all files in your BNT game directory with the new files from the new RPP patch.
+
+2) Verify Step 3a and 3b of the installation.
+
+3) That's it, have fun!
+
+(c) by Indiana
+
+
+ JAVASCRIPT CRONJOB
+--------------------
+This is for games without a real *unix cronjob.
+
+1) $sched_type must be 1 or 2. I set it to 1 so if the JS-Cronjob fail the player trigger it.
+
+2a) Hold open the cronjob.php in any JavaScript and DOM able browser (e.g.: IE 5.x / Marzila 1.x)
+    The JS reload the page every x minutes and start the scheduler.
+    If there are some missed updates it will repeare the scheduler until all are done.
+
+2b) Alternative, you kann call every x minutes the cronjob_light.php from any browser manually.
+
+3) That's it, have fun!
+
+(c) by Indiana
