@@ -130,6 +130,9 @@ $info["ORGANICS_CONSUMPTION"] = $organics_consumption;
 $info["STARVATION_DEATH_RATE"] = $starvation_death_rate;
 
 $info["CORP_PLANET_TRANSFERS"] = ($corp_planet_transfers?"1":"0");
+$info["MAX_TEAM_MEMBERS"] = $max_team_members;
+
+$info["SERVERTIMEZONE"] = $servertimezone;
 
 $info["ADMIN_MAIL"] = $admin_mail;
 $info["LINK_FORUMS"] = $link_forums;
