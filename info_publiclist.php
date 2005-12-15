@@ -6,6 +6,8 @@ connectDB();
 $info = array();
 
 $info["GAMENAME"] = $game_name;
+$info["GAMEID"] = md5($game_name . $bnt_ls_key);
+
 
 	$xsql = "SELECT min(sb_date) as x FROM $dbtables[shoutbox]";
 	$res = $db->Execute($xsql);
