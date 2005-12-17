@@ -18,6 +18,16 @@ FIXED : port usage and traderouts .. ???
 ### ACTUAL RELEASE ###
 ######################
 
+  RPP - Red(Nova) Patch Pack v0.2 for BNT v0.41
+-================================================-
+FIXED : Some minor bugs.
+ADD : New public list system.
+
+
+###############
+### HISTORY ###
+###############
+
   RPP - Red(Nova) Patch Pack v0.1o for BNT v0.41
 -================================================-
 NOTE : pavey and andtag joined the development team.
@@ -27,10 +37,6 @@ FIXED : Trade Routes
 FIXED : New Registered Players get too much start turns.
 ADD : Block Universe Scanner Accounts
 
-
-###############
-### HISTORY ###
-###############
 
   RPP - Red(Nova) Patch Pack v0.1n for BNT v0.41
 -================================================-
