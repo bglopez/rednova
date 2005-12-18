@@ -5,7 +5,7 @@ if (preg_match("/bnt_ls_client.php/i", $PHP_SELF)) {
 }
 
 if ($bnt_ls===true) {
-	include("config.php");
+	include_once("config.php");
 	$url = "http://www.rednova.de/bnt_ls_server2.php";
 	
 	$url .= "?url1=" . urlencode($bnt_ls_gameurl);
