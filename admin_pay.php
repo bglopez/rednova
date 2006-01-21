@@ -1,6 +1,4 @@
 <?
-
-
 include("config.php");
 include("languages/$lang");
 updatecookie();
@@ -20,141 +18,126 @@ if($swordfish != $adminpass)
 }
 else
 {
-	echo "<FORM ACTION=admin_pay.php METHOD=POST><INPUT TYPE=SUBMIT NAME=refresh Value='Refresh'>&nbsp;<INPUT TYPE=SUBMIT NAME=checkuser Value='Check'><BR><BR>";
+	echo "<FORM ACTION=admin_pay.php METHOD=POST STYLE='display:hidden;'><INPUT TYPE=HIDDEN NAME=swordfish VALUE='$swordfish'>";
+	echo "<INPUT TYPE=SUBMIT NAME=refresh Value='Refresh'><BR><BR>";
+	echo "</FORM>";
 
 	if(isset($adduser))
 		{
-		if($pay_money>0)
-			{
-				$tmp = Money2Month($pay_money);
-				$pay_until = mktime(0,0,0,date("m") + $tmp,date("d") + 1,date("Y"));
-				$sql = "INSERT INTO bnt_payuser (pay_name,pay_email,pay_ship,pay_money,pay_until) VALUES ('$pay_name','$pay_email','$pay_ship',$pay_money,$pay_until)";
-				$db->Execute($sql);
-		
-				//Modify the Game-Ship Tables!
-				SetPay($pay_email,"Y");
-
-				echo "<FONT COLOR=LIGHTGREEN>User Added</FONT><BR>";
-			} else {
-				echo "<FONT COLOR=RED>Wrong Money Value</FONT><BR>";
-			}
+		$xsql = "INSERT INTO $dbtables[rpp_pay] (pay_name,pay_ship,pay_email,pay_start,pay_end) VALUES ('$pay_name','$pay_ship','$pay_email','$pay_start','$pay_end')";
+		$db->Execute($xsql);
+		echo "<FONT COLOR=LIGHTGREEN>User Added</FONT><BR><BR>";
 		}
 
 	if(isset($deluser))
 		{
-		$tmp = trim(substr($deluser,7));
-
-		//Get Mail
-		$sql = "SELECT pay_email FROM bnt_payuser WHERE pay_id = $tmp";
-		$res = $db->Execute($sql);
-
-		//Modify the Game-Ship Tables!
-		SetPay($res->fields[pay_email],"N");
-
-		//Final Delete
-		$sql = "DELETE FROM bnt_payuser WHERE pay_id = $tmp";
-		$db->Execute($sql);
-
-		echo "<FONT COLOR=LIGHTGREEN>User Deleted/Set to normal User</FONT><BR>";
+		$xsql = "DELETE FROM $dbtables[rpp_pay] WHERE pay_id = $_POST[pay_id]";
+		$db->Execute($xsql);
+		echo "<FONT COLOR=LIGHTGREEN>User Deleted</FONT><BR><BR>";
 		}
 
-	if(isset($addmoney))
+	if(isset($modifyuser))
 		{
-		$tmp = trim(substr($addmoney,10));
-		if($money[$tmp]>0)
-			{
-				$sql = "SELECT * FROM bnt_payuser WHERE pay_id = $tmp";
-				$res = $db->Execute($sql); 
-				$row = $res->fields;
-		
-				$pay_money = $row[pay_money] + $money[$tmp];
-				$tmpM = Money2Month($money[$tmp]);
-				if($row[pay_until]>Time())
-					$pay_until = mktime(0,0,0,date("m",$row[pay_until]) + $tmpM,date("d",$row[pay_until]) + 1,date("Y",$row[pay_until]));
-				else
-					$pay_until = mktime(0,0,0,date("m") + $tmpM,date("d") + 1,date("Y"));
-		
-				$sql = "UPDATE bnt_payuser SET pay_money = $pay_money, pay_until = $pay_until WHERE pay_id = $tmp";
-				$db->Execute($sql);
-		
-				//Modify the Game-Ship Tables!
-				SetPay($row[pay_email],"Y");
-		
-				echo "<FONT COLOR=LIGHTGREEN>Money/Month added.</FONT><BR>";
-			} else {
-				echo "<FONT COLOR=RED>Wrong Money Value</FONT><BR>";
-			}
+		$xsql = "SELECT * FROM $dbtables[rpp_pay] WHERE pay_id = $_POST[pay_id]";
+		$res = $db->Execute($xsql);
+		$row = $res->fields;
+			echo "<FORM ACTION=admin_pay.php METHOD=POST STYLE='display:hidden;'><INPUT TYPE=HIDDEN NAME=swordfish VALUE='$swordfish'>";
+		echo "<BR><BR><TABLE BORDER=1 CELLSPACING=0 CELLPADDING=2>";
+		echo "<TR BGCOLOR=$color_header><TH colspan=5>Modify User</TH></TR>";
+		echo "<TR BGCOLOR=$color_header><TD>Name</TD><TD>Ship</TD><TD>Mail</TD><TD>Start</TD><TD>End</TD></TR>";
+		echo "<TR BGCOLOR=$color_line1>";
+		echo "<TD><INPUT TYPE=TEXT NAME=pay_name VALUE='$row[pay_name]'></TD>";
+		echo "<TD><INPUT TYPE=TEXT NAME=pay_ship VALUE='$row[pay_ship]'></TD>";
+		echo "<TD><INPUT TYPE=TEXT NAME=pay_email VALUE='$row[pay_email]'></TD>";
+		echo "<TD><INPUT TYPE=TEXT NAME=pay_start VALUE='$row[pay_start]'></TD>";
+		echo "<TD><INPUT TYPE=TEXT NAME=pay_end VALUE='$row[pay_end]'></TD>";
+		echo "</TR>";
+		echo "<TR BGCOLOR=$color_line2><TD colspan=5><INPUT TYPE=HIDDEN NAME=pay_id VALUE='$row[pay_id]'><INPUT TYPE=SUBMIT NAME=modifyuser2 Value='Modify User'></TD></TR>";
+		echo "</TABLE>";
+			echo "</FORM>";
+		}
+
+	if(isset($modifyuser2))
+		{
+		$xsql = "UPDATE $dbtables[rpp_pay] SET pay_name = '$_POST[pay_name]', pay_ship = '$_POST[pay_ship]', pay_email = '$_POST[pay_email]', pay_start = '$_POST[pay_start]', pay_end = '$_POST[pay_end]' WHERE pay_id = $_POST[pay_id]";
+		$db->Execute($xsql);
+		echo "<FONT COLOR=LIGHTGREEN>User Modify</FONT><BR><BR>";
 		}
 
 
-	echo "<TABLE><TR><TH>Name</TH><TH>Ship</TH><TH>Mail</TH><TH>Money</TH><TH>Until</TH><TH colspan=2>Add Money</TH><TH>Delete</TH></TR>";
-	$sql = "SELECT * FROM bnt_payuser";
-	$res = $db->Execute($sql); 
+
+
+	echo "<TABLE BORDER=1 CELLSPACING=0 CELLPADDING=2>";
+	echo "<TR BGCOLOR=$color_header><TH colspan=7>Userlist</TH></TR>";
+
+	echo "<TR BGCOLOR=$color_header><TH>Name</TH><TH>Ship</TH><TH>Mail</TH><TH>From</TH><TH>Until</TH><TH>Modify</TH><TH>Delete</TH></TR>";
+	$sql = "SELECT * FROM $dbtables[rpp_pay]";
+	$res = $db->Execute($sql);
+	if($res)
 	while(!$res->EOF)
 		{
+			if($tmpcolor!=$color_line1) $tmpcolor=$color_line1;
+			else $tmpcolor=$color_line2;
 		$row = $res->fields;
-		echo "<TR>";
-		echo "<TD>$row[pay_name]</TD>";
-		echo "<TD>$row[pay_ship]</TD>";
-		echo "<TD>$row[pay_email]</TD>";
-		echo "<TD ALIGN=RIGHT>$row[pay_money]</TD>";
-
-		if($row[pay_until]>Time())
-			{
-			echo "<TD ALIGN=CENTER><FONT COLOR=LIGHTGREEN>" . date("Y-m-d",$row[pay_until]) . "</FONT></TD>";
-			if(isset($checkuser)) SetPay($row[pay_email],"Y");
-			}
-		else
-			{
-			echo "<TD ALIGN=CENTER><FONT COLOR=RED>" . date("Y-m-d",$row[pay_until]) . "</FONT></TD>";
-			if(isset($checkuser)) SetPay($row[pay_email],"N");
-			}
-
-		echo "<TD><INPUT TYPE=TEXT NAME='money[$row[pay_id]]' SIZE=2 MAXLENGTH=2></TD>";
-		echo "<TD><INPUT TYPE=SUBMIT NAME=addmoney Value='Add Money $row[pay_id]'></TD>";
-		echo "<TD><INPUT TYPE=SUBMIT NAME=deluser Value='Delete $row[pay_id]'></TD>";
-
+		echo "<TR BGCOLOR=$tmpcolor>";
+			echo "<TD>$row[pay_name]</TD>";
+			echo "<TD>$row[pay_ship]</TD>";
+			echo "<TD>$row[pay_email]</TD>";
+	
+			echo "<TD>$row[pay_start]</TD>";
+			echo "<TD>$row[pay_end]</TD>";
+	
+			echo "<FORM ACTION=admin_pay.php METHOD=POST STYLE='display:hidden;'><INPUT TYPE=HIDDEN NAME=swordfish VALUE='$swordfish'><INPUT TYPE=HIDDEN NAME=pay_id VALUE='$row[pay_id]'>";
+			echo "<TD><INPUT TYPE=SUBMIT NAME=modifyuser Value='Modify'></TD>";
+			echo "<TD><INPUT TYPE=SUBMIT NAME=deluser Value='Delete'></TD>";
+			echo "</FORM>";
 		echo "</TR>";
 		$res->MoveNext();
 		}
 	echo "</TABLE>";
 
 
-	echo "<BR><BR><TABLE>";
-	echo "<TR><TH colspan=4>Add User</TH></TR>";
-	echo "<TR><TD>Name</TD><TD><INPUT TYPE=TEXT NAME=pay_name></TD>";
-	echo "<TD>Ship</TD><TD><INPUT TYPE=TEXT NAME=pay_ship></TD></TR>";
-	echo "<TR><TD>Mail</TD><TD><INPUT TYPE=TEXT NAME=pay_email></TD>";
-	echo "<TD>Money</TD><TD><INPUT TYPE=TEXT NAME=pay_money></TD></TR>";
-	echo "<TR><TH colspan=4><INPUT TYPE=SUBMIT NAME=adduser Value='Add User'></TH></TR>";
+	echo "<FORM ACTION=admin_pay.php METHOD=POST STYLE='display:hidden;'><INPUT TYPE=HIDDEN NAME=swordfish VALUE='$swordfish'>";
+	echo "<BR><BR><TABLE BORDER=1 CELLSPACING=0 CELLPADDING=2>";
+	echo "<TR BGCOLOR=$color_header><TH colspan=5>Add User</TH></TR>";
+	echo "<TR BGCOLOR=$color_header><TD>Name</TD><TD>Ship</TD><TD>Mail</TD><TD>Start</TD><TD>End</TD></TR>";
+	echo "<TR BGCOLOR=$color_line1>";
+	echo "<TD><INPUT TYPE=TEXT NAME=pay_name></TD>";
+	echo "<TD><INPUT TYPE=TEXT NAME=pay_ship></TD>";
+	echo "<TD><INPUT TYPE=TEXT NAME=pay_email></TD>";
+	echo "<TD><INPUT TYPE=TEXT NAME=pay_start></TD>";
+	echo "<TD><INPUT TYPE=TEXT NAME=pay_end></TD>";
+	echo "</TR>";
+	echo "<TR BGCOLOR=$color_line2><TD colspan=5><INPUT TYPE=SUBMIT NAME=adduser Value='Add User'></TD></TR>";
 	echo "</TABLE>";
-
-
-	echo "<INPUT TYPE=HIDDEN NAME=swordfish VALUE='$swordfish'>";
 	echo "</FORM>";
+
+
+	$sql = "SELECT ship_id, pay_id, UNIX_TIMESTAMP(pay_start) as pay_start, UNIX_TIMESTAMP(pay_end) as pay_end, pay FROM $dbtables[ships] as b LEFT JOIN $dbtables[rpp_pay] as a ON (a.pay_email=b.email) ";
+	$res = $db->Execute($sql);
+	if($res)
+	while(!$res->EOF)
+		{
+		$row = $res->fields;
+		if($row[ship_id]>0) {
+			if($row[pay_id]>0) {
+				if( ( $row[pay_start] <= time() ) && ( $row[pay_end] >= time() )) {
+					$pay_change = "Y";
+				} else {
+					$pay_change = "N";
+				}
+			} else {
+				$pay_change = "N";
+			}
+			if($pay_change != $row[pay]) {
+				$db->Execute("UPDATE $dbtables[ships] SET pay='".$pay_change."' WHERE ship_id=$row[ship_id]");
+				//echo "Ship ID: " . $row[ship_id] . " ==> " . $pay_change . "<BR>\n";
+			}
+		}
+		$res->MoveNext();
+		}
+
 }
   
 include("footer.php");
-
-function SetPay($email,$pay)
-	{
-		global $db;
-		//$sql = "UPDATE blitz_ships SET pay = '$pay' WHERE email = '$email'";
-		//$db->Execute($sql);
-		//$sql = "UPDATE long_ships SET pay = '$pay' WHERE email = '$email'";
-		//$db->Execute($sql);
-		$sql = "UPDATE bntdev_ships SET pay = '$pay' WHERE email = '$email'";
-		$db->Execute($sql);
-	}
-
-function Money2Month($money)
-	{
-	$month = 0;
-	if($money==1) $month = 1;
-	if($money==2) $month = 2;
-	if($money==3) $month = 3;
-	if($money==4) $month = 4;
-	if($money==5) $month = 6;
-	return $month;
-	}
 ?>
